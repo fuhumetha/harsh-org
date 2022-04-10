@@ -1,9 +1,18 @@
-export MAX_DOWNLOAD_SPEED=0
-tracker_list=$(curl -Ns https://trackerslist.com/all.txt | awk '$1' | tr '\n' ',')
+TRACKERS=$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_udp.txt | awk '$1' | tr '\n' ',')
 export MAX_CONCURRENT_DOWNLOADS=6
-aria2c --enable-rpc --rpc-listen-all=false --rpc-listen-port 6800 --check-certificate=false\
-   --max-connection-per-server=10 --rpc-max-request-size=1024M \
-   --bt-tracker="[$tracker_list]" --bt-max-peers=0 --seed-time=0.01 --min-split-size=10M \
-   --follow-torrent=mem --split=10 \
-   --daemon=true --allow-overwrite=true --max-overall-download-limit=$MAX_DOWNLOAD_SPEED \
-   --max-overall-upload-limit=1K --max-concurrent-downloads=$MAX_CONCURRENT_DOWNLOADS
+aria2c \
+--allow-overwrite=true \
+--bt-enable-lpd=true \
+--bt-max-peers=0 \
+--bt-tracker="[$TRACKERS]" \
+--check-certificate=false \
+--daemon=true \
+--enable-rpc \
+--follow-torrent=mem \
+--max-connection-per-server=8 \
+--max-overall-upload-limit=1K \
+--peer-agent=qBittorrent/4.3.6 \
+--peer-id-prefix=-qB4360- \
+--seed-time=0 \
+--user-agent=qBittorrent/4.3.6
+--max-concurrent-downloads=$MAX_CONCURRENT_DOWNLOADS
