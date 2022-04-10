@@ -1,5 +1,4 @@
 TRACKERS=$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_udp.txt | awk '$1' | tr '\n' ',')
-export MAX_CONCURRENT_DOWNLOADS=6
 aria2c \
 --allow-overwrite=true \
 --bt-enable-lpd=true \
@@ -15,4 +14,3 @@ aria2c \
 --peer-id-prefix=-qB4360- \
 --seed-time=0 \
 --user-agent=qBittorrent/4.3.6
---max-concurrent-downloads=$MAX_CONCURRENT_DOWNLOADS
